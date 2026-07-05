@@ -1,0 +1,119 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: #f8fafc;
+    --foreground: #0f172a;
+    --card-bg: rgba(255, 255, 255, 0.7);
+    --card-border: rgba(15, 23, 42, 0.08);
+    --accent: #2563eb; /* Trustworthy Corporate Blue */
+    --accent-foreground: #ffffff;
+    --highlight: #0284c7; /* Sky blue secondary highlight instead of amber */
+    --glow-color: rgba(59, 130, 246, 0.15);
+    color-scheme: light dark;
+  }
+
+  .dark {
+    --background: #030712; /* Deep Navy/Indigo */
+    --foreground: #f9fafb;
+    --card-bg: rgba(15, 23, 42, 0.7); /* Glassmorphic dark slate */
+    --card-border: rgba(255, 255, 255, 0.05);
+    --accent: #3b82f6; /* Trustworthy Light Corporate Blue */
+    --accent-foreground: #ffffff;
+    --highlight: #38bdf8; /* Cyan secondary highlight */
+    --glow-color: rgba(59, 130, 246, 0.15);
+  }
+
+  body {
+    color: var(--foreground);
+    background: var(--background);
+    transition: background-color 0.3s ease, color 0.3s ease;
+    overflow-x: hidden;
+  }
+
+  /* Custom scrollbars based on modern scrollbar standards */
+  * {
+    scrollbar-color: var(--card-border) transparent;
+    scrollbar-width: thin;
+  }
+
+  /* Webkit custom scrollbars for older browsers */
+  ::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+  }
+  ::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  ::-webkit-scrollbar-thumb {
+    background: var(--card-border);
+    border-radius: 9999px;
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background: var(--accent);
+  }
+}
+
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+  .text-pretty {
+    text-wrap: pretty;
+  }
+
+  /* Clean glassmorphism */
+  .glass {
+    background: rgba(255, 255, 255, 0.45);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid rgba(15, 23, 42, 0.08);
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.03);
+  }
+
+  .dark .glass {
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.06);
+    box-shadow: none;
+  }
+
+  .glass-dark {
+    background: rgba(255, 255, 255, 0.85);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid rgba(15, 23, 42, 0.08);
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.03);
+  }
+
+  .dark .glass-dark {
+    background: rgba(15, 23, 42, 0.7);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    box-shadow: none;
+  }
+
+  /* Hover glow styling */
+  .hover-glow {
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+  .hover-glow:hover {
+    box-shadow: 0 0 20px rgba(59, 130, 246, 0.08);
+    border-color: rgba(59, 130, 246, 0.15);
+  }
+
+  /* Keep legacy class mapping for backwards compatibility if needed */
+  .glow-hover {
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+  .glow-hover:hover {
+    box-shadow: 0 0 20px var(--glow-color);
+    border-color: var(--accent);
+  }
+}
+
+/* Base custom selection styling */
+::selection {
+  background-color: var(--accent);
+  color: var(--accent-foreground);
+}
