@@ -19,13 +19,13 @@ const GithubIcon = (props: React.SVGProps<SVGSVGElement>) => (
 
 const PROJECTS = [
   {
-    id: "apex",
-    title: "APEX",
-    tagline: "Flagship AI Developer Console",
+    id: "incpay",
+    title: "IncPay",
+    tagline: "Flagship Escrow & Payment Platform",
     description:
-      "Production-grade AI developer console with NVIDIA NIM integration, vector memory with pgvector, and sandboxed Docker execution.",
-    tech: ["Next.js", "FastAPI", "Python", "NVIDIA NIM", "LangChain", "PostgreSQL", "Docker", "TypeScript"],
-    github: "https://github.com/IncreasonJr/APEX",
+      "A payment-bridge platform connecting sellers and customers through escrow-backed transactions, flexible settlement flows, and secure multi-channel payments.",
+    tech: ["FastAPI", "Python", "React", "Tailwind CSS", "PostgreSQL", "Supabase", "Paystack"],
+    github: "https://github.com/IncreasonJr/IncPay",
     isFlagship: true,
   },
   {
@@ -36,6 +36,16 @@ const PROJECTS = [
       "Football match predictor with 78% accuracy. Feature-engineered from 10+ seasons of data. Deployed as real-time API.",
     tech: ["Next.js", "PyTorch", "XGBoost", "FastAPI", "Python", "Pandas"],
     github: "https://github.com/IncreasonJr/CLUTCH",
+    isFlagship: false,
+  },
+  {
+    id: "duly",
+    title: "DULY — HTU Dues Collection Platform",
+    tagline: "Built by Team 404 for the 2026 COMPSA Week Hackathon",
+    description:
+      "A multi-tenant dues collection and administrative platform built for Ho Technical University. Streamlines student billing, automates Paystack verification, and provides executives with real-time treasury analytics.",
+    tech: ["Next.js", "TypeScript", "Tailwind CSS", "Node.js", "Express", "Supabase", "PostgreSQL", "Paystack"],
+    github: "https://github.com/christliebdela/Duly",
     isFlagship: false,
   },
   {
@@ -65,8 +75,8 @@ export default function FeaturedProjects() {
           </p>
         </div>
 
-        {/* 3 Project Cards Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 lg:gap-8">
+        {/* 4 Project Cards Grid */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 lg:gap-8">
           {PROJECTS.map((project) => (
             <div
               key={project.id}
@@ -79,12 +89,12 @@ export default function FeaturedProjects() {
                 <div className="flex items-center justify-between mb-4">
                   {project.isFlagship ? (
                     <span className="inline-flex items-center space-x-1 text-[11px] font-semibold uppercase tracking-wider text-accent bg-accent/10 px-2.5 py-1 rounded-full border border-accent/20">
-                      <Sparkles className="w-3 h-3 mr-1" />
+                      <Sparkles className="w-3 h-3 mr-1 shrink-0" />
                       <span>{project.tagline}</span>
                     </span>
                   ) : (
                     <span className="inline-flex items-center space-x-1 text-[11px] font-medium tracking-wider text-foreground/60 bg-card-border/40 px-2.5 py-1 rounded-full">
-                      <FolderGit2 className="w-3 h-3 mr-1" />
+                      <FolderGit2 className="w-3 h-3 mr-1 shrink-0" />
                       <span>{project.tagline}</span>
                     </span>
                   )}
@@ -101,7 +111,7 @@ export default function FeaturedProjects() {
                 </p>
               </div>
 
-              {/* Tech Tags & Source Link */}
+              {/* Tech Tags & Links */}
               <div>
                 <div className="flex flex-wrap gap-1.5 mb-6 pt-4 border-t border-card-border/40">
                   {project.tech.map((t) => (
