@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import { ArrowRight, Mail } from "lucide-react";
+import MagneticHireButton from "@/components/MagneticHireButton";
 
 const ROLES = [
   "Building AI Products",
@@ -169,6 +170,16 @@ export default function Hero() {
             Contact Me
             <Mail className="w-4 h-4 ml-2 text-accent group-hover:scale-110 transition-transform" />
           </a>
+        </motion.div>
+
+        {/* Magnetic "Hire Me" Focal CTA */}
+        <motion.div
+          initial={{ opacity: 0, y: 15 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5, delay: 0.55 }}
+          className="mt-6 sm:mt-7 flex justify-center"
+        >
+          <MagneticHireButton />
         </motion.div>
       </div>
     </section>
