@@ -1,12 +1,11 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { motion } from "framer-motion";
 import { Sun, Moon } from "lucide-react";
 
 export default function ThemeToggle() {
   const [mounted, setMounted] = useState(false);
-  const [theme, setTheme] = useState<"light" | "dark">("light");
+  const [theme, setTheme] = useState<"light" | "dark">("dark");
 
   useEffect(() => {
     setMounted(true);
@@ -28,29 +27,21 @@ export default function ThemeToggle() {
 
   if (!mounted) {
     return (
-      <div className="w-10 h-10 rounded-full border border-card-border bg-card-bg opacity-0" />
+      <div className="w-9 h-9 rounded-full border border-foreground/10 opacity-0" />
     );
   }
 
   return (
-    <motion.button
+    <button
       onClick={toggleTheme}
-      className="p-2.5 rounded-full glass glow-hover focus:outline-none focus-visible:ring-2 focus-visible:ring-accent"
+      className="p-2 rounded-full border border-foreground/10 hover:border-foreground/30 text-foreground/70 hover:text-foreground transition-colors focus:outline-none focus-visible:ring-1 focus-visible:ring-foreground"
       aria-label={`Switch to ${theme === "dark" ? "light" : "dark"} mode`}
-      whileHover={{ scale: 1.05 }}
-      whileTap={{ scale: 0.95 }}
     >
-      <motion.div
-        initial={false}
-        animate={{ rotate: theme === "dark" ? 180 : 0 }}
-        transition={{ type: "spring", stiffness: 200, damping: 15 }}
-      >
-        {theme === "dark" ? (
-          <Sun className="w-5 h-5 text-highlight" />
-        ) : (
-          <Moon className="w-5 h-5 text-accent" />
-        )}
-      </motion.div>
-    </motion.button>
+      {theme === "dark" ? (
+        <Sun className="w-4 h-4 text-foreground/80" />
+      ) : (
+        <Moon className="w-4 h-4 text-foreground/80" />
+      )}
+    </button>
   );
 }

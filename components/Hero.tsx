@@ -1,52 +1,12 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useState } from "react";
+import Image from "next/image";
 import { motion } from "framer-motion";
-import { ArrowRight, Mail } from "lucide-react";
 import MagneticHireButton from "@/components/MagneticHireButton";
 
-const ROLES = [
-  "Building AI Products",
-  "Full-Stack Architect",
-  "LLM Specialist",
-];
-
 export default function Hero() {
-  const [currentText, setCurrentText] = useState("");
-  const [roleIndex, setRoleIndex] = useState(0);
-  const [isDeleting, setIsDeleting] = useState(false);
-  const [speed, setSpeed] = useState(100);
-
-  useEffect(() => {
-    const fullText = ROLES[roleIndex];
-
-    const tick = () => {
-      if (!isDeleting) {
-        // Typing
-        setCurrentText(fullText.substring(0, currentText.length + 1));
-        if (currentText === fullText) {
-          // Wait before starting to delete
-          setIsDeleting(true);
-          setSpeed(1500); // Wait time at the end of word
-        } else {
-          setSpeed(75 + Math.random() * 50); // Typing speed
-        }
-      } else {
-        // Deleting
-        setCurrentText(fullText.substring(0, currentText.length - 1));
-        if (currentText === "") {
-          setIsDeleting(false);
-          setRoleIndex((prev) => (prev + 1) % ROLES.length);
-          setSpeed(500); // Wait time before typing next word
-        } else {
-          setSpeed(40); // Deleting speed (faster)
-        }
-      }
-    };
-
-    const timer = setTimeout(tick, speed);
-    return () => clearTimeout(timer);
-  }, [currentText, isDeleting, roleIndex, speed]);
+  const [imgSrc, setImgSrc] = useState<string | null>("/me.jpeg");
 
   const handleScroll = (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
     e.preventDefault();
@@ -68,119 +28,112 @@ export default function Hero() {
   return (
     <section
       id="home"
-      className="relative min-h-[calc(100vh-80px)] flex items-center justify-center overflow-hidden py-24 md:py-32"
+      className="relative min-h-[calc(100vh-80px)] flex flex-col justify-between py-12 sm:py-16 md:py-20 max-w-7xl 2xl:max-w-[1440px] mx-auto px-6 sm:px-10 lg:px-16 xl:px-20"
     >
-      {/* Ambient glows */}
-      <div className="absolute inset-0 z-0 pointer-events-none">
-        <div className="absolute top-1/4 left-10 md:left-1/4 w-[300px] md:w-[600px] h-[300px] md:h-[600px] rounded-full bg-accent/10 blur-[120px] pointer-events-none" />
-        <div className="absolute bottom-1/4 right-10 md:right-1/4 w-[250px] md:w-[500px] h-[250px] md:h-[500px] rounded-full bg-highlight/10 blur-[100px] pointer-events-none" />
-      </div>
+      {/* Two-Column Editorial Layout */}
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-12 items-center my-auto py-6 sm:py-8">
+        {/* Left Column: Text Content */}
+        <div className="lg:col-span-6 xl:col-span-6 space-y-7 sm:space-y-8 order-2 lg:order-1">
+          {/* Top small kicker */}
+          <motion.span
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5 }}
+            className="text-xs font-mono uppercase tracking-widest text-foreground/50 block"
+          >
+            AI Engineer &amp; Full-Stack Developer
+          </motion.span>
 
-      {/* Hero Content */}
-      <div className="relative z-10 max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-        {/* Badge */}
-        <motion.div
-          initial={{ opacity: 0, y: 15 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5 }}
-          className="inline-flex items-center space-x-2 px-3.5 py-1.5 rounded-full bg-card-bg/60 border border-card-border mb-8 shadow-sm"
-        >
-          <span className="flex h-2 w-2 relative">
-            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-accent opacity-75"></span>
-            <span className="relative inline-flex rounded-full h-2 w-2 bg-accent"></span>
-          </span>
-          <span className="text-xs font-medium uppercase tracking-wider text-foreground/90">
-            Open for Freelance &amp; Remote Projects
-          </span>
-        </motion.div>
+          {/* Graded Headline */}
+          <div className="space-y-3 sm:space-y-4">
+            <motion.h1
+              initial={{ opacity: 0, y: 15 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 0.08 }}
+              className="text-5xl sm:text-7xl md:text-8xl font-bold tracking-tight text-foreground leading-[1.02]"
+            >
+              Hi, I&apos;m Caleb.
+            </motion.h1>
 
-        {/* Profile Avatar */}
-        <motion.div
-          initial={{ opacity: 0, scale: 0.8 }}
-          animate={{ opacity: 1, scale: 1 }}
-          transition={{ duration: 0.5, delay: 0.08 }}
-          className="mb-8 relative flex justify-center"
-        >
-          <div className="w-28 h-28 md:w-32 md:h-32 rounded-full overflow-hidden border-2 border-accent/30 shadow-md p-1 relative group">
-            <img
-              src="/me.jpeg"
-              alt="Delator Edudzi Caleb"
-              className="w-full h-full object-cover rounded-full filter grayscale hover:grayscale-0 transition-all duration-300"
-            />
+            <motion.h2
+              initial={{ opacity: 0, y: 15 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 0.14 }}
+              className="text-2xl sm:text-4xl md:text-5xl font-medium tracking-tight text-foreground/75 leading-[1.18] text-balance"
+            >
+              I build AI products and full-stack applications.
+            </motion.h2>
           </div>
-        </motion.div>
 
-        {/* Title / Headline */}
-        <motion.h1
+          {/* Subline */}
+          <motion.p
+            initial={{ opacity: 0, y: 15 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.2 }}
+            className="text-base sm:text-lg text-foreground/60 max-w-xl font-normal leading-relaxed"
+          >
+            Available for work · Remote
+          </motion.p>
+
+          {/* Minimal Magnetic Hire Button */}
+          <motion.div
+            initial={{ opacity: 0, y: 15 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.26 }}
+            className="pt-2 flex items-center gap-4"
+          >
+            <MagneticHireButton href="#contact" />
+          </motion.div>
+        </div>
+
+        {/* Right Column: Much Bigger Circular Portrait Photo */}
+        <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5, delay: 0.15 }}
-          className="text-4xl sm:text-6xl font-extrabold tracking-tight mb-6"
+          transition={{ duration: 0.6, delay: 0.2 }}
+          className="lg:col-span-6 xl:col-span-6 flex flex-col items-center justify-center w-full order-1 lg:order-2"
         >
-          <span className="block text-foreground mb-2">Delator Edudzi Caleb</span>
-          <span className="block bg-gradient-to-r from-[#38bdf8] via-[#3b82f6] to-[#2563eb] bg-clip-text text-transparent py-1">
-            AI Engineer &amp; Full-Stack Developer
-          </span>
-        </motion.h1>
+          {/* Concentric Layered Circular Frame */}
+          <div className="relative group p-3 sm:p-4 rounded-full border border-foreground/10 bg-gradient-to-b from-foreground/[0.05] to-transparent shadow-2xl">
+            {/* Ambient Glow */}
+            <div className="absolute inset-0 rounded-full bg-foreground/[0.03] group-hover:bg-foreground/[0.06] blur-2xl transition-all duration-700 pointer-events-none" />
 
-        {/* Typing Subtitle */}
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 0.5, delay: 0.25 }}
-          className="h-10 text-lg sm:text-2xl font-medium text-foreground/80 mb-6 flex items-center justify-center"
-        >
-          <span className="mr-2 text-foreground/60">Focused on</span>
-          <span className="text-accent font-semibold border-r-2 border-accent pr-1 animate-pulse">
-            {currentText}
-          </span>
+            {/* Inner Circular Portrait — Significantly Expanded */}
+            <div className="relative w-72 h-72 sm:w-96 sm:h-96 md:w-[420px] md:h-[420px] lg:w-[440px] lg:h-[440px] xl:w-[490px] xl:h-[490px] rounded-full overflow-hidden border border-foreground/15 bg-foreground/5 shadow-inner">
+              {imgSrc ? (
+                <Image
+                  src={imgSrc}
+                  alt="Delator Edudzi Caleb"
+                  fill
+                  priority
+                  sizes="(max-width: 640px) 288px, (max-width: 1024px) 420px, 490px"
+                  onError={() => setImgSrc(null)}
+                  className="object-cover object-[center_18%] filter grayscale contrast-105 group-hover:grayscale-0 group-hover:scale-105 transition-all duration-700 ease-out"
+                />
+              ) : (
+                <div className="w-full h-full flex flex-col items-center justify-center bg-foreground/[0.04] text-foreground/40 font-mono text-sm">
+                  <span>Your Photo</span>
+                </div>
+              )}
+            </div>
+          </div>
+
+          {/* Small Caption */}
+          <p className="text-xs font-mono text-foreground/50 mt-4 text-center">
+            Delator Edudzi Caleb · Ghana
+          </p>
         </motion.div>
+      </div>
 
-        {/* Tagline */}
-        <motion.p
-          initial={{ opacity: 0, y: 10 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5, delay: 0.35 }}
-          className="max-w-2xl mx-auto text-base sm:text-lg text-foreground/75 text-pretty mb-10"
+      {/* Bottom Scroll Prompt */}
+      <div className="pt-8 sm:pt-12">
+        <a
+          href="#projects"
+          onClick={(e) => handleScroll(e, "#projects")}
+          className="inline-flex items-center text-xs font-mono uppercase tracking-widest text-foreground/40 hover:text-foreground/80 transition-colors"
         >
-          Developing intelligent platforms, model training integrations, and scalable web architectures.
-        </motion.p>
-
-        {/* CTA Buttons */}
-        <motion.div
-          initial={{ opacity: 0, y: 15 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5, delay: 0.45 }}
-          className="flex flex-col sm:flex-row items-center justify-center gap-4"
-        >
-          <a
-            href="#projects"
-            onClick={(e) => handleScroll(e, "#projects")}
-            className="w-full sm:w-auto inline-flex items-center justify-center px-6 py-3 rounded-full bg-accent text-accent-foreground font-semibold shadow-md hover:opacity-90 transition-all duration-200 group focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-accent"
-          >
-            View My Work
-            <ArrowRight className="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform" />
-          </a>
-
-          <a
-            href="#contact"
-            onClick={(e) => handleScroll(e, "#contact")}
-            className="w-full sm:w-auto inline-flex items-center justify-center px-6 py-3 rounded-full border border-card-border bg-card-bg/60 font-semibold shadow-sm hover:bg-card-border/50 transition-all duration-200 group focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-accent"
-          >
-            Contact Me
-            <Mail className="w-4 h-4 ml-2 text-accent group-hover:scale-110 transition-transform" />
-          </a>
-        </motion.div>
-
-        {/* Magnetic "Hire Me" Focal CTA */}
-        <motion.div
-          initial={{ opacity: 0, y: 15 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5, delay: 0.55 }}
-          className="mt-6 sm:mt-7 flex justify-center"
-        >
-          <MagneticHireButton />
-        </motion.div>
+          Scroll to explore ↓
+        </a>
       </div>
     </section>
   );

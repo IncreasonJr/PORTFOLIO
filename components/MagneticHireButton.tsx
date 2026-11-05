@@ -6,7 +6,6 @@ import {
   useMotionValue,
   useSpring,
   useTransform,
-  useMotionTemplate,
   useReducedMotion,
 } from "framer-motion";
 import { Briefcase } from "lucide-react";
@@ -36,18 +35,13 @@ export default function MagneticHireButton({
     setIsTouchDevice(hasTouch);
   }, []);
 
-  // Motion values for target pull, scale, 3D tilt, and specular reflection
+  // Motion values for target pull, scale, and 3D tilt
   const targetX = useMotionValue(0);
   const targetY = useMotionValue(0);
   const targetScale = useMotionValue(1);
   const targetRotateX = useMotionValue(0);
   const targetRotateY = useMotionValue(0);
   const targetRotateZ = useMotionValue(0);
-
-  // Specular light coordinates (percentages 0-100)
-  const spotlightX = useMotionValue(50);
-  const spotlightY = useMotionValue(50);
-  const spotlightOpacity = useMotionValue(0);
 
   // Responsive, elastic Venom-style spring physics for button translation
   const buttonSpringConfig = {
@@ -87,9 +81,6 @@ export default function MagneticHireButton({
   const iconX = useTransform(x, (val) => val * 0.18);
   const iconY = useTransform(y, (val) => val * 0.18);
 
-  // Dynamic specular highlight reflection across the button face
-  const spotlightBg = useMotionTemplate`radial-gradient(150px circle at ${spotlightX}% ${spotlightY}%, rgba(255, 255, 255, 0.4) 0%, rgba(255, 255, 255, 0.08) 50%, transparent 80%)`;
-
   useEffect(() => {
     if (shouldReduceMotion || isTouchDevice) return;
 
@@ -126,14 +117,7 @@ export default function MagneticHireButton({
         targetRotateY.set(dirX * maxTilt * smoothEase);
         targetRotateZ.set(dirX * dirY * 6 * smoothEase);
 
-        // Specular light coordinates
-        const relX = ((e.clientX - rect.left) / rect.width) * 100;
-        const relY = ((e.clientY - rect.top) / rect.height) * 100;
-        spotlightX.set(Math.max(-20, Math.min(120, relX)));
-        spotlightY.set(Math.max(-20, Math.min(120, relY)));
-        spotlightOpacity.set(0.95);
-
-        targetScale.set(isHovered ? 1.12 : 1.07);
+        targetScale.set(isHovered ? 1.05 : 1.03);
         setIsInZone(true);
       } else {
         targetX.set(0);
@@ -142,7 +126,6 @@ export default function MagneticHireButton({
         targetRotateY.set(0);
         targetRotateZ.set(0);
         targetScale.set(1);
-        spotlightOpacity.set(0);
         setIsInZone(false);
       }
     };
@@ -154,7 +137,6 @@ export default function MagneticHireButton({
       targetRotateY.set(0);
       targetRotateZ.set(0);
       targetScale.set(1);
-      spotlightOpacity.set(0);
       setIsInZone(false);
     };
 
@@ -165,7 +147,7 @@ export default function MagneticHireButton({
       window.removeEventListener("mousemove", handleMouseMove);
       document.removeEventListener("mouseleave", handleMouseLeaveDoc);
     };
-  }, [shouldReduceMotion, isTouchDevice, isHovered, spotlightX, spotlightY, spotlightOpacity, targetRotateX, targetRotateY, targetRotateZ, targetScale, targetX, targetY]);
+  }, [shouldReduceMotion, isTouchDevice, isHovered, targetRotateX, targetRotateY, targetRotateZ, targetScale, targetX, targetY]);
 
   const handleClick = (e: React.MouseEvent<HTMLAnchorElement>) => {
     if (href.startsWith("#")) {
@@ -194,44 +176,31 @@ export default function MagneticHireButton({
       style={{ perspective: 1000 }}
       className={`relative inline-flex items-center justify-center select-none touch-manipulation ${className}`}
     >
-      {/* Venom tendril magnetic aura glow (reaches out ahead towards the cursor) */}
+      {/* Minimal magnetic aura glow (reaches out subtly toward cursor) */}
       <motion.div
         style={{
           x: shouldReduceMotion ? 0 : auraX,
           y: shouldReduceMotion ? 0 : auraY,
         }}
         animate={{
-          opacity: isHovered ? 0.85 : isInZone ? 0.65 : 0.25,
-          scale: isHovered ? 1.12 : isInZone ? 1.06 : 0.96,
+          opacity: isHovered ? 0.35 : isInZone ? 0.2 : 0,
+          scale: isHovered ? 1.08 : isInZone ? 1.04 : 0.96,
         }}
-        transition={{ duration: 0.25 }}
-        className="absolute -inset-2 sm:-inset-2.5 rounded-full bg-gradient-to-r from-blue-600 via-accent to-cyan-400 blur-xl pointer-events-none"
+        transition={{ duration: 0.2 }}
+        className="absolute -inset-2 rounded-full bg-foreground/15 blur-lg pointer-events-none"
       />
 
-      {/* Dynamic iridescent border glow */}
-      <motion.div
-        style={{
-          x: shouldReduceMotion ? 0 : x,
-          y: shouldReduceMotion ? 0 : y,
-          scale: shouldReduceMotion ? 1 : scale,
-        }}
-        animate={{
-          opacity: isInZone || isHovered ? 0.9 : 0.4,
-        }}
-        className="absolute -inset-[1px] rounded-full bg-gradient-to-r from-cyan-400 via-blue-500 to-indigo-400 blur-[2px] pointer-events-none transition-opacity duration-300"
-      />
-
-      {/* Main Magnetic Button — identical width (180px) and height (48px) to View My Work CTA */}
+      {/* Main Magnetic Button — Minimal Outlined Aesthetic */}
       <motion.a
         href={href}
         onClick={handleClick}
         onMouseEnter={() => {
           setIsHovered(true);
-          targetScale.set(1.08);
+          targetScale.set(1.05);
         }}
         onMouseLeave={() => {
           setIsHovered(false);
-          targetScale.set(isInZone ? 1.05 : 1);
+          targetScale.set(isInZone ? 1.03 : 1);
         }}
         style={{
           x: shouldReduceMotion ? 0 : x,
@@ -242,37 +211,28 @@ export default function MagneticHireButton({
           scale: shouldReduceMotion ? 1 : scale,
           transformStyle: "preserve-3d",
         }}
-        whileTap={{ scale: 0.94 }}
+        whileTap={{ scale: 0.96 }}
         aria-label="Hire Delator Edudzi Caleb - Available for freelance and remote opportunities"
-        className="group relative inline-flex items-center justify-center w-full max-w-[280px] sm:max-w-none sm:w-[180px] h-[48px] px-6 py-3 rounded-full bg-gradient-to-r from-blue-600 via-accent to-blue-500 text-white font-bold text-base tracking-wide shadow-lg shadow-blue-500/25 hover:shadow-blue-500/40 border border-white/25 dark:border-white/15 overflow-hidden cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 transition-shadow duration-300"
+        className="group relative inline-flex items-center justify-center px-9 py-4 sm:px-11 sm:py-4.5 rounded-full border border-foreground/25 hover:border-foreground/60 bg-foreground/[0.04] hover:bg-foreground/[0.09] text-foreground font-semibold text-base sm:text-lg tracking-tight transition-colors duration-200 cursor-pointer shadow-sm focus:outline-none focus-visible:ring-1 focus-visible:ring-foreground"
       >
-        {/* Real-time specular highlight overlay reflecting cursor angle */}
-        <motion.div
-          style={{
-            background: spotlightBg,
-            opacity: shouldReduceMotion ? 0 : spotlightOpacity,
-          }}
-          className="absolute inset-0 pointer-events-none rounded-full"
-        />
-
-        {/* Ambient subtle interior gradient sheen */}
-        <div className="absolute inset-0 rounded-full bg-gradient-to-t from-black/15 via-transparent to-white/20 pointer-events-none" />
+        {/* Subtle interior highlight */}
+        <div className="absolute inset-0 rounded-full bg-gradient-to-t from-transparent via-transparent to-white/[0.04] pointer-events-none" />
 
         {/* 3D Floating Content Layer */}
         <motion.div
           style={{
             x: shouldReduceMotion ? 0 : textX,
             y: shouldReduceMotion ? 0 : textY,
-            transform: "translateZ(20px)",
+            transform: "translateZ(15px)",
           }}
           className="relative z-10 flex items-center justify-center"
         >
           {/* Button Text */}
-          <span className="font-bold tracking-wide drop-shadow-sm text-base">
+          <span className="font-semibold tracking-tight text-base sm:text-lg">
             Hire Me
           </span>
 
-          {/* Only Briefcase Icon */}
+          {/* Briefcase Icon */}
           <motion.span
             style={{
               x: shouldReduceMotion ? 0 : iconX,
@@ -280,7 +240,7 @@ export default function MagneticHireButton({
             }}
             className="flex items-center"
           >
-            <Briefcase className="w-4 h-4 ml-2 text-white/95 group-hover:scale-110 group-hover:text-white transition-all duration-200" />
+            <Briefcase className="w-5 h-5 ml-2.5 text-foreground/80 group-hover:text-foreground transition-colors duration-200" />
           </motion.span>
         </motion.div>
       </motion.a>

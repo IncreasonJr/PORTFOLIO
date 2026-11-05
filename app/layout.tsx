@@ -21,10 +21,10 @@ const themeScript = `
   (function() {
     try {
       var savedTheme = localStorage.getItem('theme');
-      if (savedTheme === 'dark') {
-        document.documentElement.classList.add('dark');
-      } else {
+      if (savedTheme === 'light') {
         document.documentElement.classList.remove('dark');
+      } else {
+        document.documentElement.classList.add('dark');
       }
     } catch (_) {}
   })();
@@ -36,11 +36,11 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className="scroll-smooth" style={{ scrollBehavior: "smooth" }}>
+    <html lang="en" className="dark scroll-smooth" style={{ scrollBehavior: "smooth" }}>
       <head>
         <script dangerouslySetInnerHTML={{ __html: themeScript }} />
       </head>
-      <body className="font-sans antialiased text-foreground bg-background">
+      <body className="font-sans antialiased text-foreground bg-background selection:bg-foreground selection:text-background">
         {children}
       </body>
     </html>

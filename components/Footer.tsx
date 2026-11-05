@@ -22,22 +22,21 @@ export default function Footer() {
   };
 
   return (
-    <footer className="border-t border-card-border/40 py-8 relative">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row items-center justify-between gap-4">
+    <footer className="border-t border-foreground/10 py-10">
+      <div className="max-w-7xl 2xl:max-w-[1440px] mx-auto px-6 sm:px-10 lg:px-16 xl:px-20 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs font-mono text-foreground/50">
         {/* Copyright */}
-        <p className="text-xs text-foreground/60 text-center sm:text-left">
-          &copy; 2026 Delator Edudzi Caleb. All rights reserved.
+        <p>
+          &copy; 2026 Delator Edudzi Caleb
         </p>
 
-
-        {/* Scroll-to-top button */}
+        {/* Subtle scroll-to-top button */}
         {showScroll && (
           <button
             onClick={scrollToTop}
-            className="fixed bottom-6 right-6 p-3 rounded-full bg-accent text-accent-foreground shadow-lg hover:opacity-90 transition-all duration-200 z-40 focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-accent min-h-[44px] min-w-[44px] flex items-center justify-center"
+            className="fixed bottom-6 right-6 p-2.5 rounded-full border border-foreground/20 hover:border-foreground/50 bg-background text-foreground/60 hover:text-foreground shadow-sm transition-all duration-200 z-40 focus:outline-none focus-visible:ring-1 focus-visible:ring-foreground"
             aria-label="Scroll to top"
           >
-            <ArrowUp className="w-5 h-5" />
+            <ArrowUp className="w-4 h-4" />
           </button>
         )}
       </div>
